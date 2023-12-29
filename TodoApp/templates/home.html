@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .input-section {
+            text-align: center;
+            display: inline-block;
+            margin: 20px auto;
+            width: 80%;
+        }
+
+        .form-control {
+            padding: 10px;
+            border-radius: 5px 0 0 5px;
+            border: 1px solid #ccc;
+            width: 70%;
+            box-sizing: border-box;
+        }
+
+        .tite {
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .todo-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        .todo-item {
+            background-color: #fff;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .todo-content {
+            margin: 0;
+        }
+
+        .delete-button {
+            padding: 8px 12px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>TO-DO LIST</h1>
+
+    <div class="input-section">
+        <form action="/" method="post" class="d-flex" role="search">
+            {% csrf_token %}
+            <input class="form-control me-2" type="text" name="content" placeholder="Write here" aria-label="Search" autofocus>
+            <button class="tite" type="submit">Submit</button>
+        </form>
+    </div>
+
+    <ul class="todo-list">
+        {% for ToDo_app in post reversed %}
+        <li class="todo-item">
+            <p class="todo-content">{{ ToDo_app.content|truncatewords:15 }}</p>
+            <form action="/delete/{{ ToDo_app.id }}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="Delete" class="delete-button">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
